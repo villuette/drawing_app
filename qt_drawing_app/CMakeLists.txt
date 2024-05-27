@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(qt6_drawing_app VERSION 0.1 LANGUAGES CXX)
+project(qt_drawing_app VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -19,34 +19,36 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
+        colorpickerbutton.h
+        colorpickerbutton.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(qt6_drawing_app
+    qt_add_executable(qt_drawing_app
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
     )
 # Define target properties for Android with Qt 6 as:
-#    set_property(TARGET qt6_drawing_app APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
+#    set_property(TARGET qt_drawing_app APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
 #                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
 # For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
 else()
     if(ANDROID)
-        add_library(qt6_drawing_app SHARED
+        add_library(qt_drawing_app SHARED
             ${PROJECT_SOURCES}
         )
 # Define properties for Android with Qt 5 after find_package() calls as:
 #    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
     else()
-        add_executable(qt6_drawing_app
+        add_executable(qt_drawing_app
             ${PROJECT_SOURCES}
         )
     endif()
 endif()
 
-target_link_libraries(qt6_drawing_app PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(qt_drawing_app PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 
-set_target_properties(qt6_drawing_app PROPERTIES
+set_target_properties(qt_drawing_app PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
@@ -54,10 +56,10 @@ set_target_properties(qt6_drawing_app PROPERTIES
     WIN32_EXECUTABLE TRUE
 )
 
-install(TARGETS qt6_drawing_app
+install(TARGETS qt_drawing_app
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
 
 if(QT_VERSION_MAJOR EQUAL 6)
-    qt_finalize_executable(qt6_drawing_app)
+    qt_finalize_executable(qt_drawing_app)
 endif()
