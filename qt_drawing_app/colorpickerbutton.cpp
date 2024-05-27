@@ -3,12 +3,12 @@
 ColorPickerButton::ColorPickerButton(QWidget* parent)
     : QPushButton(parent)
 {}
-void ColorPickerButton::mousePressEvent(QMouseEvent* e) {
+void ColorPickerButton::mousePressEvent(QMouseEvent* e) { //TODO change event to signal
     QPushButton::mousePressEvent(e);
     auto color = QColorDialog::getColor();
     SetColor(color);
     setStyleSheet(QString("background-color:" + color.name()));
-    qDebug() << GetColor().name();
+    qDebug() << "Color changed: " + GetColor().name();
 
 }
 void ColorPickerButton::SetColor(QColor color){

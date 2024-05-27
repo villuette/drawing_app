@@ -21,6 +21,10 @@ set(PROJECT_SOURCES
         mainwindow.ui
         colorpickerbutton.h
         colorpickerbutton.cpp
+        myshape.h myshape.cpp
+        shapeselector.h shapeselector.cpp
+        mycircle.h mycircle.cpp
+        myrectangle.h myrectangle.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
