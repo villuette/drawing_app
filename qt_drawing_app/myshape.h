@@ -8,7 +8,7 @@ class MyShape : public QWidget
     Q_OBJECT
 public:
     MyShape(QWidget *parent = nullptr);
-
+    QString name;
 signals:
 
 };
