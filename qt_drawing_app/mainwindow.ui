@@ -46,6 +46,16 @@
      <bool>false</bool>
     </property>
    </widget>
+   <widget class="MyCircle" name="circle" native="true">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>180</y>
+      <width>61</width>
+      <height>61</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -69,6 +79,15 @@
    <class>ShapeSelector</class>
    <extends>QComboBox</extends>
    <header>shapeselector.h</header>
+   <slots>
+    <signal>signal1()</signal>
+   </slots>
+  </customwidget>
+  <customwidget>
+   <class>MyCircle</class>
+   <extends>QWidget</extends>
+   <header location="global">mycircle.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>
