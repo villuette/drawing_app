@@ -46,14 +46,20 @@
      <bool>false</bool>
     </property>
    </widget>
-   <widget class="MyCircle" name="circle" native="true">
+   <widget class="DrawingArea" name="frame">
     <property name="geometry">
      <rect>
-      <x>100</x>
-      <y>180</y>
-      <width>61</width>
-      <height>61</height>
+      <x>200</x>
+      <y>10</y>
+      <width>431</width>
+      <height>331</height>
      </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
     </property>
    </widget>
   </widget>
@@ -84,9 +90,9 @@
    </slots>
   </customwidget>
   <customwidget>
-   <class>MyCircle</class>
-   <extends>QWidget</extends>
-   <header location="global">mycircle.h</header>
+   <class>DrawingArea</class>
+   <extends>QFrame</extends>
+   <header location="global">drawingarea.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

@@ -26,6 +26,7 @@ set(PROJECT_SOURCES
         mycircle.h mycircle.cpp
         myrectangle.h myrectangle.cpp
         shapesstorage.h shapesstorage.cpp
+        drawingarea.h drawingarea.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

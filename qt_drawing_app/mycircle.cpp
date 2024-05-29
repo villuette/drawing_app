@@ -5,9 +5,10 @@ MyCircle::MyCircle(QWidget* parent)
 {
 
 }
-void MyCircle::paintEvent(QPaintEvent *e){
+void MyCircle::paintEvent(QPaintEvent *){
     QPainter painter(this);
     painter.setPen(Qt::blue);
+
     painter.drawEllipse(rect().adjusted(1,1,-1,-1));
     qDebug() << "painted";
 }
