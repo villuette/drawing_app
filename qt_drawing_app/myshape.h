@@ -2,13 +2,16 @@
 #define MYSHAPE_H
 
 #include <QWidget>
-
+#include <QPainter>
 class MyShape : public QWidget
 {
     Q_OBJECT
+protected:
+    QPainter* painter;
 public:
     MyShape(QWidget *parent = nullptr);
-    QString name;
+    void paintEvent(QPaintEvent *) override;
+    virtual void draw() = 0;
 signals:
 
 };

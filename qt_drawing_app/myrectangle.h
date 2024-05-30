@@ -7,6 +7,7 @@ class MyRectangle : public MyShape
 {
 public:
     MyRectangle();
+    void draw() override;
 };
 
 #endif // MYRECTANGLE_H

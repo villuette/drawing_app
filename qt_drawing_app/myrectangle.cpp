@@ -4,3 +4,6 @@ MyRectangle::MyRectangle()
 {
 
 }
+void MyRectangle::draw(){
+
+}
