@@ -27,6 +27,7 @@ set(PROJECT_SOURCES
         myrectangle.h myrectangle.cpp
         shapesstorage.h shapesstorage.cpp
         drawingarea.h drawingarea.cpp
+        sizepicker.h sizepicker.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

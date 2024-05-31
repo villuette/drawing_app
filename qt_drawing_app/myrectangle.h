@@ -7,7 +7,7 @@ class MyRectangle : public MyShape
 {
 public:
     MyRectangle();
-    void draw() override;
+    void draw(QPainter* p) override;
 };
 
 #endif // MYRECTANGLE_H

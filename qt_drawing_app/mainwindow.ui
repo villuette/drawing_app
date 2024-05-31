@@ -27,7 +27,7 @@
      <bool>false</bool>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: white</string>
+     <string notr="true">background-color: black</string>
     </property>
     <property name="text">
      <string/>
@@ -49,8 +49,8 @@
    <widget class="DrawingArea" name="frame">
     <property name="geometry">
      <rect>
-      <x>200</x>
-      <y>10</y>
+      <x>220</x>
+      <y>0</y>
       <width>431</width>
       <height>331</height>
      </rect>
@@ -61,6 +61,32 @@
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
+   </widget>
+   <widget class="SizePicker" name="sizePicker" native="true">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>60</y>
+      <width>161</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="sizePickerLayout">
+     <item>
+      <widget class="QSpinBox" name="spinBox_w">
+       <property name="value">
+        <number>20</number>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="spinBox_h">
+       <property name="value">
+        <number>20</number>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -80,6 +106,9 @@
    <class>ColorPickerButton</class>
    <extends>QPushButton</extends>
    <header location="global">colorpickerbutton.h</header>
+   <slots>
+    <signal>colorChanged(QColor)</signal>
+   </slots>
   </customwidget>
   <customwidget>
    <class>ShapeSelector</class>
@@ -94,8 +123,88 @@
    <extends>QFrame</extends>
    <header location="global">drawingarea.h</header>
    <container>1</container>
+   <slots>
+    <slot>setCurrentColor(QColor)</slot>
+    <slot>setCurrentSize(QSize)</slot>
+   </slots>
+  </customwidget>
+  <customwidget>
+   <class>SizePicker</class>
+   <extends>QWidget</extends>
+   <header location="global">sizepicker.h</header>
+   <container>1</container>
+   <slots>
+    <signal>sizeChanged(QSize)</signal>
+    <slot>setPickedWidth(int)</slot>
+    <slot>setPickedHeight(int)</slot>
+   </slots>
   </customwidget>
  </customwidgets>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>colorChanged(QColor)</signal>
+   <receiver>frame</receiver>
+   <slot>setCurrentColor(QColor)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>25</x>
+     <y>44</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>415</x>
+     <y>194</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>spinBox_h</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>sizePicker</receiver>
+   <slot>setPickedHeight(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>127</x>
+     <y>114</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>90</x>
+     <y>114</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>spinBox_w</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>sizePicker</receiver>
+   <slot>setPickedWidth(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>53</x>
+     <y>114</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>90</x>
+     <y>114</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sizePicker</sender>
+   <signal>sizeChanged(QSize)</signal>
+   <receiver>frame</receiver>
+   <slot>setCurrentSize(QSize)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>90</x>
+     <y>114</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>435</x>
+     <y>184</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

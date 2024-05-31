@@ -4,6 +4,6 @@ MyRectangle::MyRectangle()
 {
 
 }
-void MyRectangle::draw(){
+void MyRectangle::draw(QPainter* p){
 
 }

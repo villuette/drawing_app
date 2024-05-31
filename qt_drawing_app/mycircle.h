@@ -8,7 +8,7 @@ class MyCircle : public MyShape
 {
 public:
     MyCircle(QWidget* parent = nullptr);
-    void draw() override;
+    void draw(QPainter *p) override;
 };
 
 #endif // MYCIRCLE_H

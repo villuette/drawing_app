@@ -3,15 +3,20 @@
 
 #include <QWidget>
 #include <QPainter>
+#include <QPen>
 class MyShape : public QWidget
 {
     Q_OBJECT
 protected:
     QPainter* painter;
+    QPen pen;
+    virtual void draw(QPainter*) = 0;
 public:
     MyShape(QWidget *parent = nullptr);
     void paintEvent(QPaintEvent *) override;
-    virtual void draw() = 0;
+
+    void setPen(QPen pen);
+    void setSize(QSize size);
 signals:
 
 };

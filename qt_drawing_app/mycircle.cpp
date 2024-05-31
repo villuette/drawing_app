@@ -2,15 +2,8 @@
 
 MyCircle::MyCircle(QWidget* parent)
     : MyShape(parent)
-{
-
-}
-void MyCircle::draw(){
-    //painter->begin(this);
-    painter->setPen(Qt::blue);
-
-    painter->drawEllipse(rect().adjusted(1,1,-1,-1));
-    qDebug() << this << "painted";
-    //painter->end();
+{}
+void MyCircle::draw(QPainter* p){
+    p->drawEllipse(rect().adjusted(1,1,-1,-1));
 }
 

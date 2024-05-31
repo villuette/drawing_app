@@ -18,6 +18,8 @@ public:
 private slots:
     void on_comboBox_currentTextChanged(const QString &arg1);
 
+    void on_spinBox_w_valueChanged(int arg1);
+
 private:
     Ui::MainWindow *ui;
 };
