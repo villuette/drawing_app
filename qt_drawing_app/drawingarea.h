@@ -7,13 +7,17 @@
 #include <QMouseEvent>
 #include <mycircle.h>
 #include <QLayout>
+#include <selectionarea.h>
+#include <climits>
 class DrawingArea : public QFrame
 {
     Q_OBJECT
-    ShapesStorage* store; //creates and responsible for keeping objects
+    ShapesStorage* store; //destroys all contained shapes on program exit
+    ShapesStorage* selectedStore; //contains only selected shapes
     QColor currentColor;
     QSize currentSize;
-    QColor selectionColor(Qt::green);
+    QColor selectionColor;
+    SelectionArea selectionArea;
     //TODO fabric
 public:
     DrawingArea(QWidget* parent = nullptr);
@@ -21,11 +25,13 @@ public:
     void paintEvent(QPaintEvent* e) override; //TODO redraw all contained shapes
     void mousePressEvent(QMouseEvent* e) override;
     void mouseReleaseEvent(QMouseEvent* e) override;
-
+    QColor getSelectionColor();
     MyShape* createShape(QPoint coords);
+    QRect calculateSelectionArea();
 public slots:
     void setCurrentColor(const QColor &color);
     void setCurrentSize(QSize size);
+    void setShapeSelected(MyShape* shape);
 };
 
 #endif // DRAWINGAREA_H

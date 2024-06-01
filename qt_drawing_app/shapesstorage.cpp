@@ -29,15 +29,44 @@ int ShapesStorage::length() {
     return counter;
 }
 
-void ShapesStorage::removeShape(MyShape* shape){
-    for(ShapesStorage::Iterator it = this->begin(); it != this->end(); it++){
-        auto prev = it.current;
+bool ShapesStorage::contains(MyShape *shape){
+    bool result = false;
+    for (Iterator it = begin(); it != end(); ++it) {
         if(*it == shape){
-            ++it;
-            prev->next = it.current;
+            result = true;
         }
     }
+    return result;
 }
+
+void ShapesStorage::removeShape(MyShape* shape) {
+        if (head == nullptr) {
+            return; // The list is empty, nothing to remove
+        }
+        // If the shape to remove is the head of the list
+        if (head->shape == shape) {
+            Node* temp = head;
+            head = head->next;
+            if (head == nullptr) {
+                tail = nullptr; // The list is now empty
+            }
+            return;
+        }
+        Node* prev = head;
+        Node* current = head->next;
+        while (current != nullptr) {
+            if (current->shape == shape) {
+                // Adjust the pointers to bypass the node to remove
+                prev->next = current->next;
+                if (current->next == nullptr) {
+                    tail = prev; // Update the tail if we removed the last node
+                }
+                return;
+            }
+            prev = current;
+            current = current->next;
+        }
+    }
 ShapesStorage::Iterator::Iterator(Node *node)
     :current(node)
 {}

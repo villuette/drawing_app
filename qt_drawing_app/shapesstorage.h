@@ -23,6 +23,7 @@ public:
 
     void addShape(MyShape* shape);
     void removeShape(MyShape* shape);
+    bool contains(MyShape* shape);
     int length();
     class Iterator{
     public:
