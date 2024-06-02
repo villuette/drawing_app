@@ -28,6 +28,9 @@ int ShapesStorage::length() {
     }
     return counter;
 }
+void ShapesStorage::purge(){
+    head = tail = nullptr;
+}
 
 bool ShapesStorage::contains(MyShape *shape){
     bool result = false;
@@ -97,5 +100,4 @@ bool ShapesStorage::Iterator::operator==(const ShapesStorage::Iterator& other) c
 }
 bool ShapesStorage::Iterator::operator !=(const ShapesStorage::Iterator& other) const{
     return !(*this == other);
-
 }

@@ -10,8 +10,12 @@ void MyShape::paintEvent(QPaintEvent *){
     painter.setPen(this->pen);
     draw(&painter);
 }
-void MyShape::mouseReleaseEvent(QMouseEvent *){
-    emit shapeSelected(this);
+void MyShape::mouseReleaseEvent(QMouseEvent *e){
+    if (e->MouseButtonRelease){
+        emit shapeSelected(this);
+        qDebug() << "eve";
+    }
+
 }
 void MyShape::draw(QPainter *p){}
 void MyShape::setPen(QPen _pen){
@@ -23,4 +27,9 @@ QPen MyShape::getPen(){
 void MyShape::setSize(QSize size){
     setGeometry(x(), y(), size.width(), size.height());
 }
-
+void MyShape::setStartMovePosition(QPoint p){
+    startMovePosition = p;
+}
+QPoint MyShape::getStartMovePosition(){
+    return startMovePosition;
+}

@@ -5,10 +5,10 @@ DrawingArea::DrawingArea(QWidget* parent)
       currentSize(20,20),
       currentColor(Qt::black),
       selectionColor(Qt::green),
+      store(new ShapesStorage()),
       selectedStore(new ShapesStorage()),
-      selectionArea(this)
+      selectionArea(selectedStore, store, this)
 {
-    BindStorage(new ShapesStorage());
     this->setStyleSheet(QString("background: white"));
     selectionArea.hide();
 }
@@ -16,12 +16,11 @@ void DrawingArea::BindStorage(ShapesStorage *_store){
     this->store = _store;
 }
 void DrawingArea::paintEvent(QPaintEvent *e){
-    //TODO make the rectangle of all selected objects
 }
 void DrawingArea::mousePressEvent(QMouseEvent *e){}
 
 void DrawingArea::mouseReleaseEvent(QMouseEvent *e){
-    selectionArea.hide(); //hides on click on outer space
+    //selectionArea.hide(); //hides on click on outer space
     auto shape = createShape(e->pos());
     if (shape){
         store->addShape(shape);
@@ -60,19 +59,19 @@ QRect DrawingArea::calculateSelectionArea(){
     }
     return QRect(minX, minY, maxX-minX, maxY-minY);
 }
-void DrawingArea::setShapeSelected(MyShape *shape){ //TODO instead, make square field selection
+void DrawingArea::setShapeSelected(MyShape *shape){
     //shape->setPen(QPen(selectionColor, shape->getPen().width()));
     if(selectedStore->contains(shape)){
         selectedStore->removeShape(shape);
     } else {
         selectedStore->addShape(shape);
     }
-    for (MyShape *sh : *selectedStore){
-    }
-    qDebug() << "----------------";
+
     selectionArea.setGeometry(calculateSelectionArea());
     if(selectionArea.isHidden()){
         selectionArea.show();
     }
+    selectionArea.raise();
     selectionArea.repaint();
+
 }

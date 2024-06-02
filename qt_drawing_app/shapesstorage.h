@@ -25,6 +25,7 @@ public:
     void removeShape(MyShape* shape);
     bool contains(MyShape* shape);
     int length();
+    void purge();
     class Iterator{
     public:
         Iterator(Node* node);
