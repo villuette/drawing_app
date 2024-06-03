@@ -50,9 +50,17 @@ MyShape* DrawingArea::createShape(QPoint coords){
 }
 void DrawingArea::setCurrentColor(const QColor& color){
     this->currentColor = color;
+    for (MyShape* el : *selectedStore){
+        el->setPen(QPen(color, el->getPen().width()));
+    }
 }
 void DrawingArea::setCurrentSize(QSize size){
     this->currentSize = size;
+    for (MyShape* el : *selectedStore){
+        el->setSize(size);
+    }
+    drawSelectionArea();
+    repaint();
 }
 QColor DrawingArea::getSelectionColor(){
     return selectionColor;
@@ -72,6 +80,7 @@ QRect DrawingArea::calculateSelectionArea(){
 }
 
 void DrawingArea::setShapeSelected(MyShape *shape, QMouseEvent* e){
+    qDebug() << "trying to select: " << shape;
     if (e->modifiers() == Qt::ControlModifier){
         if(selectedStore->contains(shape)){
             selectedStore->removeShape(shape);
@@ -92,14 +101,17 @@ void DrawingArea::keyReleaseEvent(QKeyEvent *event){
         selectedStore->purge();
         repaint();
     }
+    if(event->key() == Qt::Key_G){
+         qDebug() << "trying group...";
+        group();
+
+    }
 }
 void DrawingArea::moveSelectedShapes(MyShape *shape, QPoint vect, QMouseEvent* e){
     if (!selectedStore->contains(shape)){
         setShapeSelected(shape, e);
         return;
     }
-
-
     for(MyShape* el : *selectedStore){
         if(el != shape){
             el->moveBy(vect);
@@ -118,4 +130,29 @@ bool DrawingArea::checkAreaLeaving(){
         return true;
     }
     return false;
+}
+void DrawingArea::group(){ //TODO recursive grouping checks
+    MyShapeGroup* mygroup = new MyShapeGroup(selectedStore, this);
+    for (MyShape* sh : *selectedStore) {
+        store->removeShape(sh);
+    }
+    store->addShape(mygroup);
+    connect(mygroup, &MyShapeGroup::shapeSelected, this, &DrawingArea::setShapeSelected);
+    for(MyShape* sh : *mygroup->getShapes()){
+
+    }
+    qDebug() << "grouped";
+    repaint();
+}
+void DrawingArea::ungroup(){
+    for (MyShape* sh : *selectedStore) {
+        MyShapeGroup* mygroup = qobject_cast<MyShapeGroup*>(sh);
+        if(!mygroup)
+            return;
+        for(MyShape* contained_shapes : *mygroup->getShapes()){
+            store->addShape(contained_shapes);
+        }
+        delete mygroup;
+    }
+    qDebug() << "ungrouped";
 }

@@ -2,15 +2,15 @@
 #define SIZEPICKER_H
 
 #include <QWidget>
-#include <QSpinBox>
+#include <QSlider>
 #include <QChildEvent>
 #include <QSize>
 class SizePicker : public QWidget
 {
     Q_OBJECT
     QSize pickedSize;
-    QSpinBox* spin_width;
-    QSpinBox* spin_height;
+    QSlider* spin_width;
+    QSlider* spin_height;
 public:
     SizePicker(QWidget *parent = nullptr);
 signals:

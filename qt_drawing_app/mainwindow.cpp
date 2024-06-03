@@ -26,7 +26,3 @@ void MainWindow::on_comboBox_currentTextChanged(const QString &text)
 }
 
 
-void MainWindow::on_spinBox_w_valueChanged(int arg1)
-{
-}
-

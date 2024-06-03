@@ -6,6 +6,7 @@
 #include <shapesstorage.h>
 #include <QMouseEvent>
 #include <QPoint>
+#include <myshapegroup.h>
 //#include <
 class SelectionArea : public QWidget //movement and resize behaviour
 {

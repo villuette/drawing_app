@@ -10,6 +10,7 @@
 #include <selectionarea.h>
 #include <climits>
 #include <QKeyEvent>
+#include <myshapegroup.h>
 class DrawingArea : public QFrame
 {
     Q_OBJECT
@@ -31,6 +32,8 @@ public:
     QRect calculateSelectionArea();
     void drawSelectionArea();
     void keyReleaseEvent(QKeyEvent *event) override;
+    void group();
+    void ungroup();
 public slots:
     void setCurrentColor(const QColor &color);
     void setCurrentSize(QSize size);

@@ -29,6 +29,7 @@ set(PROJECT_SOURCES
         drawingarea.h drawingarea.cpp
         sizepicker.h sizepicker.cpp
         selectionarea.h selectionarea.cpp
+        myshapegroup.h myshapegroup.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

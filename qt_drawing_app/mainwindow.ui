@@ -73,16 +73,22 @@
     </property>
     <layout class="QHBoxLayout" name="sizePickerLayout">
      <item>
-      <widget class="QSpinBox" name="spinBox_w">
+      <widget class="QSlider" name="width_slider">
        <property name="value">
         <number>20</number>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QSpinBox" name="spinBox_h">
+      <widget class="QSlider" name="height_slider">
        <property name="value">
         <number>20</number>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
        </property>
       </widget>
      </item>
@@ -159,38 +165,6 @@
    </hints>
   </connection>
   <connection>
-   <sender>spinBox_h</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>sizePicker</receiver>
-   <slot>setPickedHeight(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>127</x>
-     <y>114</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>90</x>
-     <y>114</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>spinBox_w</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>sizePicker</receiver>
-   <slot>setPickedWidth(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>53</x>
-     <y>114</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>90</x>
-     <y>114</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>sizePicker</sender>
    <signal>sizeChanged(QSize)</signal>
    <receiver>frame</receiver>
@@ -203,6 +177,38 @@
     <hint type="destinationlabel">
      <x>435</x>
      <y>184</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>width_slider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>sizePicker</receiver>
+   <slot>setPickedWidth(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>52</x>
+     <y>114</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>90</x>
+     <y>114</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>height_slider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>sizePicker</receiver>
+   <slot>setPickedHeight(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>127</x>
+     <y>114</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>90</x>
+     <y>114</y>
     </hint>
    </hints>
   </connection>
