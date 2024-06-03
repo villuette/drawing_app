@@ -9,6 +9,7 @@
 #include <QLayout>
 #include <selectionarea.h>
 #include <climits>
+#include <QKeyEvent>
 class DrawingArea : public QFrame
 {
     Q_OBJECT
@@ -29,11 +30,14 @@ public:
     MyShape* createShape(QPoint coords);
     QRect calculateSelectionArea();
     void drawSelectionArea();
+    void keyReleaseEvent(QKeyEvent *event) override;
 public slots:
     void setCurrentColor(const QColor &color);
     void setCurrentSize(QSize size);
-    void setShapeSelected(MyShape* shape);
-    void moveSelectedShapes(MyShape*, QPoint);
+    void setShapeSelected(MyShape* shape, QMouseEvent* e);
+    void moveSelectedShapes(MyShape*, QPoint, QMouseEvent*);
+    bool checkAreaLeaving();
+    //TODO avoid leaving area
 };
 
 #endif // DRAWINGAREA_H

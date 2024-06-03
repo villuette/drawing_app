@@ -11,19 +11,21 @@ DrawingArea::DrawingArea(QWidget* parent)
 {
     this->setStyleSheet(QString("background: white"));
     selectionArea.hide();
+
 }
 void DrawingArea::BindStorage(ShapesStorage *_store){
     this->store = _store;
 }
 void DrawingArea::paintEvent(QPaintEvent *e){
+    setFocus(); //must be focused to get key pressing events
 }
 void DrawingArea::mousePressEvent(QMouseEvent *e){}
 
 void DrawingArea::mouseReleaseEvent(QMouseEvent *e){
-    //selectionArea.hide(); //hides on click on outer space
     auto shape = createShape(e->pos());
     if (shape){
         store->addShape(shape);
+        setShapeSelected(shape, e);
     }
 }
 void DrawingArea::drawSelectionArea(){
@@ -32,6 +34,7 @@ void DrawingArea::drawSelectionArea(){
         selectionArea.show();
     }
     selectionArea.repaint();
+
 }
 MyShape* DrawingArea::createShape(QPoint coords){
 
@@ -67,20 +70,52 @@ QRect DrawingArea::calculateSelectionArea(){
     }
     return QRect(minX, minY, maxX-minX, maxY-minY);
 }
-void DrawingArea::setShapeSelected(MyShape *shape){
-    //shape->setPen(QPen(selectionColor, shape->getPen().width()));
-    if(selectedStore->contains(shape)){
-        selectedStore->removeShape(shape);
+
+void DrawingArea::setShapeSelected(MyShape *shape, QMouseEvent* e){
+    if (e->modifiers() == Qt::ControlModifier){
+        if(selectedStore->contains(shape)){
+            selectedStore->removeShape(shape);
+        } else {
+            selectedStore->addShape(shape);
+        }
     } else {
+        selectedStore->purge();
         selectedStore->addShape(shape);
     }
     drawSelectionArea();
 }
-void DrawingArea::moveSelectedShapes(MyShape *shape, QPoint vect){ //NOT WORKING NOW
+void DrawingArea::keyReleaseEvent(QKeyEvent *event){
+    if(event->key() == Qt::Key_Delete){
+        for (MyShape* shape : *selectedStore){
+            delete shape;
+        }
+        selectedStore->purge();
+        repaint();
+    }
+}
+void DrawingArea::moveSelectedShapes(MyShape *shape, QPoint vect, QMouseEvent* e){
+    if (!selectedStore->contains(shape)){
+        setShapeSelected(shape, e);
+        return;
+    }
+
+
     for(MyShape* el : *selectedStore){
         if(el != shape){
             el->moveBy(vect);
         }
     }
     drawSelectionArea();
+    if (checkAreaLeaving()){ //TODO Glide-effect on crossing frame
+        for(MyShape* el : *selectedStore){
+            el->moveBy(-vect);
+        }
+    }
+    drawSelectionArea();
+}
+bool DrawingArea::checkAreaLeaving(){
+    if (!rect().contains(selectionArea.geometry())){
+        return true;
+    }
+    return false;
 }

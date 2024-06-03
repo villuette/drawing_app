@@ -28,8 +28,8 @@ public:
     QPoint getStartMovePosition();
     void moveBy(QPoint vect);
 signals:
-    void shapeSelected(MyShape* shape);
-    void shapeMoved(MyShape* shape, QPoint vect);
+    void shapeSelected(MyShape* shape, QMouseEvent* e);
+    void shapeMoved(MyShape* shape, QPoint vect, QMouseEvent* e);
     //TODO conditional connecting (change size, pen)
 };
 
