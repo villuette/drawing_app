@@ -28,10 +28,12 @@ public:
     QColor getSelectionColor();
     MyShape* createShape(QPoint coords);
     QRect calculateSelectionArea();
+    void drawSelectionArea();
 public slots:
     void setCurrentColor(const QColor &color);
     void setCurrentSize(QSize size);
     void setShapeSelected(MyShape* shape);
+    void moveSelectedShapes(MyShape*, QPoint);
 };
 
 #endif // DRAWINGAREA_H

@@ -11,11 +11,22 @@ void MyShape::paintEvent(QPaintEvent *){
     draw(&painter);
 }
 void MyShape::mouseReleaseEvent(QMouseEvent *e){
-    if (e->MouseButtonRelease){
+    if (!isMoved){
         emit shapeSelected(this);
-        qDebug() << "eve";
     }
-
+    isMoved = false;
+}
+void MyShape::mouseMoveEvent(QMouseEvent *e){
+    auto vect = e->pos() - startMovePosition;
+    moveBy(vect);
+    isMoved = true;
+    emit shapeMoved(this, vect);
+}
+void MyShape::moveBy(QPoint vect){ //emitting here will cause recursive emitting!
+    move(pos() + vect);
+}
+void MyShape::mousePressEvent(QMouseEvent *e){
+    startMovePosition = e->pos();
 }
 void MyShape::draw(QPainter *p){}
 void MyShape::setPen(QPen _pen){

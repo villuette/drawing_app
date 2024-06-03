@@ -26,6 +26,13 @@ void DrawingArea::mouseReleaseEvent(QMouseEvent *e){
         store->addShape(shape);
     }
 }
+void DrawingArea::drawSelectionArea(){
+    selectionArea.setGeometry(calculateSelectionArea());
+    if(selectionArea.isHidden()){
+        selectionArea.show();
+    }
+    selectionArea.repaint();
+}
 MyShape* DrawingArea::createShape(QPoint coords){
 
     auto shape = new MyCircle(this); //MUSTDO change to fabric
@@ -35,6 +42,7 @@ MyShape* DrawingArea::createShape(QPoint coords){
     shape->move(coords);
     shape->show();
     connect(shape, &MyShape::shapeSelected, this, &DrawingArea::setShapeSelected);
+    connect(shape, &MyShape::shapeMoved, this, &DrawingArea::moveSelectedShapes);
     return shape;
 }
 void DrawingArea::setCurrentColor(const QColor& color){
@@ -66,12 +74,13 @@ void DrawingArea::setShapeSelected(MyShape *shape){
     } else {
         selectedStore->addShape(shape);
     }
-
-    selectionArea.setGeometry(calculateSelectionArea());
-    if(selectionArea.isHidden()){
-        selectionArea.show();
+    drawSelectionArea();
+}
+void DrawingArea::moveSelectedShapes(MyShape *shape, QPoint vect){ //NOT WORKING NOW
+    for(MyShape* el : *selectedStore){
+        if(el != shape){
+            el->moveBy(vect);
+        }
     }
-    selectionArea.raise();
-    selectionArea.repaint();
-
+    drawSelectionArea();
 }

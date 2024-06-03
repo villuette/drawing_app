@@ -16,9 +16,9 @@ class SelectionArea : public QWidget //movement and resize behaviour
 public:
     explicit SelectionArea(ShapesStorage* selected, ShapesStorage* main_store, QWidget *parent = nullptr);
     void paintEvent(QPaintEvent*) override;
-    void mouseReleaseEvent(QMouseEvent *event) override;
-    void mouseMoveEvent(QMouseEvent *event) override;
-    void mousePressEvent(QMouseEvent *event) override;
+    //void mouseReleaseEvent(QMouseEvent *event) override;
+    //void mouseMoveEvent(QMouseEvent *event) override;
+    //void mousePressEvent(QMouseEvent *event) override;
 signals:
     void areaMoved(QPoint vector);
     void areaResized(QSize size_diff);
