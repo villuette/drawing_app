@@ -18,6 +18,14 @@ public:
 private slots:
     void on_comboBox_currentTextChanged(const QString &arg1);
 
+    void on_width_slider_valueChanged(int value);
+
+    void on_height_slider_valueChanged(int value);
+
+    void on_sizePicker_sizeChanged(const QSize &);
+
+    void on_pushButton_colorChanged(const QColor &);
+
 private:
     Ui::MainWindow *ui;
 };

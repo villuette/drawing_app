@@ -13,11 +13,13 @@ class SizePicker : public QWidget
     QSlider* spin_height;
 public:
     SizePicker(QWidget *parent = nullptr);
+    void changeWidth(int value);
+    void changeHeight(int value);
 signals:
     void sizeChanged(const QSize &size);
-public slots:
-    void setPickedWidth(const int &value);
-    void setPickedHeight(const int &value);
+//public slots:
+//    void setPickedWidth(const int &value);
+//    void setPickedHeight(const int &value);
 };
 
 #endif // SIZEPICKER_H
