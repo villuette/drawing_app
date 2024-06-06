@@ -1,12 +1,40 @@
 #include "myshapegroup.h"
 
 MyShapeGroup::MyShapeGroup(ShapesStorage *contained_shapes, QWidget *parent)
-    :MyShape(parent),
-    shapes(contained_shapes)
+    :MyShape(parent)
 {
-    setGeometry(calculateGeometry());
-    qDebug() << "group geometry: " <<geometry();
-    //connect(this, &MyShape::shapeSelected, this, &MyShapeGroup::setShapesSelected);
+    shapes = new ShapesStorage();
+    for (MyShape* sh : *contained_shapes) {
+        shapes->addShape(sh);
+        connect(sh, &MyShape::shapeSelected, this, &MyShapeGroup::setShapesSelected);
+        connect(sh, &MyShape::shapeMoved, this, &MyShapeGroup::setShapesMoved);
+    }
+    adaptSelectionBorder();
+}
+MyShapeGroup::~MyShapeGroup(){
+    for (MyShape* sh : *shapes) {
+        disconnect(sh, &MyShape::shapeSelected, this, &MyShapeGroup::setShapesSelected);
+        disconnect(sh, &MyShape::shapeMoved, this, &MyShapeGroup::setShapesMoved);
+        shapes->removeShape(sh);
+        delete sh;
+    }
+    shapes->purge();
+    delete shapes;
+}
+//void MyShapeGroup::onExtract(){
+//    for (MyShape* sh : *shapes) {
+//        disconnect(sh, &MyShape::shapeSelected, this, &MyShapeGroup::setShapesSelected);
+//        disconnect(sh, &MyShape::shapeMoved, this, &MyShapeGroup::setShapesMoved);
+//    }
+//}
+void MyShapeGroup::drawSelection(QPainter *p){
+    auto default_pen = p->pen();
+    p->setPen(QPen(Qt::blue, 3));
+    p->drawRect(geometry());
+    p->setPen(default_pen);
+    for(MyShape* sh : *shapes){
+        sh->drawSelection(p);
+    }
 }
 void MyShapeGroup::setPen(QPen pen){
     for(MyShape *el : *shapes){
@@ -25,6 +53,7 @@ void MyShapeGroup::moveBy(QPoint vect){
     for(MyShape *el : *shapes){
         el->moveBy(vect);
     }
+    adaptSelectionBorder();
 }
 ShapesStorage* MyShapeGroup::getShapes(){
     return shapes;
@@ -32,11 +61,10 @@ ShapesStorage* MyShapeGroup::getShapes(){
 }
 void MyShapeGroup::draw(QPainter *p){
     for(MyShape *el : *shapes){
-        p->setPen(el->getPen());
         el->draw(p);
     }
 }
-QRect MyShapeGroup::calculateGeometry(){
+void MyShapeGroup::adaptSelectionBorder(){
     using namespace  std;
     int minX, minY, maxX, maxY;
     maxX = maxY = 0;
@@ -47,21 +75,13 @@ QRect MyShapeGroup::calculateGeometry(){
         maxX = max(maxX, el->x()+el->width());
         maxY = max(maxY, el->y()+el->height());
     }
-    return QRect(minX, minY, maxX-minX, maxY-minY);
+    setGeometry(QRect(minX, minY, maxX-minX, maxY-minY));
 }
-void MyShapeGroup::mouseReleaseEvent(QMouseEvent*){
 
+void MyShapeGroup::setShapesSelected(){
+    adaptSelectionBorder();
+    emit shapeSelected(this);
 }
-void MyShapeGroup::mouseMoveEvent(QMouseEvent*) {
-
-}
-void MyShapeGroup::mousePressEvent(QMouseEvent*) {
-    qDebug() << "group touched";
-}
-void MyShapeGroup::setShapesSelected(MyShape* shape, QMouseEvent* e){
-    qDebug() << "make all selected ...";
-    for(MyShape* el : *shapes){
-        if(el != shape)
-            emit el->shapeSelected(el, e);
-    }
+void MyShapeGroup::setShapesMoved(MyShape* shape, QPoint vect){
+    emit shapeMoved(this, vect);
 }

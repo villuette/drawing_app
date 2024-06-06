@@ -1,6 +1,7 @@
 #include "myrectangle.h"
 
-MyRectangle::MyRectangle()
+MyRectangle::MyRectangle(QWidget* parent)
+    :MyShape(parent)
 {
 
 }

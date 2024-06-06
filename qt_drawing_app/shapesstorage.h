@@ -12,15 +12,13 @@ struct Node {
     }
 };
 
-class ShapesStorage //singleton class to access shapes
+class ShapesStorage
 {
-    Node* head; // Головной узел списка
-    Node* tail; // Хвостовой узел списка
-
+    Node* head;
+    Node* tail;
 public:
     ShapesStorage();
     ~ShapesStorage();
-
     void addShape(MyShape* shape);
     void removeShape(MyShape* shape);
     bool contains(MyShape* shape);

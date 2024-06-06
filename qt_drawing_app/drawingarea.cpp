@@ -7,37 +7,31 @@ DrawingArea::DrawingArea(QWidget* parent)
       selectionColor(Qt::green),
       store(new ShapesStorage()),
       selectedStore(new ShapesStorage()),
-      selectionArea(selectedStore, store, this)
+      selectionArea(selectedStore, this)
 {
     this->setStyleSheet(QString("background: white"));
     selectionArea.hide();
-
 }
 void DrawingArea::BindStorage(ShapesStorage *_store){
-    this->store = _store;
+    store = _store;
 }
 void DrawingArea::paintEvent(QPaintEvent *e){
-    setFocus(); //must be focused to get key pressing events
+    setFocus();
 }
-void DrawingArea::mousePressEvent(QMouseEvent *e){}
-
 void DrawingArea::mouseReleaseEvent(QMouseEvent *e){
     auto shape = createShape(e->pos());
     if (shape){
         store->addShape(shape);
-        setShapeSelected(shape, e);
+        setShapeSelected(shape);
     }
 }
 void DrawingArea::drawSelectionArea(){
-    selectionArea.setGeometry(calculateSelectionArea());
     if(selectionArea.isHidden()){
         selectionArea.show();
     }
     selectionArea.repaint();
-
 }
 MyShape* DrawingArea::createShape(QPoint coords){
-
     auto shape = new MyCircle(this); //MUSTDO change to fabric
     shape->setSize(currentSize);
     shape->setPen(QPen(currentColor, 3)); //TODO make width setting with signal
@@ -65,35 +59,17 @@ void DrawingArea::setCurrentSize(QSize size){
 QColor DrawingArea::getSelectionColor(){
     return selectionColor;
 }
-QRect DrawingArea::calculateSelectionArea(){
-    using namespace  std;
-    int minX, minY, maxX, maxY;
-    maxX = maxY = 0;
-    minX = minY = INT_MAX;
-    for(MyShape* el : *selectedStore){
-        minX = min(minX, el->x());
-        minY = min(minY, el->y());
-        maxX = max(maxX, el->x()+el->width());
-        maxY = max(maxY, el->y()+el->height());
-    }
-    return QRect(minX, minY, maxX-minX, maxY-minY);
-}
 
-void DrawingArea::setShapeSelected(MyShape *shape, QMouseEvent* e){
-    qDebug() << "trying to select: " << shape;
-    if (e->modifiers() == Qt::ControlModifier){
-        if(selectedStore->contains(shape)){
-            selectedStore->removeShape(shape);
-        } else {
-            selectedStore->addShape(shape);
-        }
-    } else {
-        selectedStore->purge();
-        selectedStore->addShape(shape);
+void DrawingArea::keyPressEvent(QKeyEvent *event){
+
+    if(event->key() == Qt::Key_Control){
+        ctrlPressed = true;
     }
-    drawSelectionArea();
 }
 void DrawingArea::keyReleaseEvent(QKeyEvent *event){
+    if(event->key() == Qt::Key_Control){
+        ctrlPressed = false;
+    }
     if(event->key() == Qt::Key_Delete){
         for (MyShape* shape : *selectedStore){
             delete shape;
@@ -101,21 +77,32 @@ void DrawingArea::keyReleaseEvent(QKeyEvent *event){
         selectedStore->purge();
         repaint();
     }
-    if(event->key() == Qt::Key_G){
-         qDebug() << "trying group...";
-        group();
 
+    if (event->key() == Qt::Key_G && (event->modifiers() & Qt::ShiftModifier)) {
+        ungroup();
+    } else if (event->key() == Qt::Key_G) {
+        group();
     }
 }
-void DrawingArea::moveSelectedShapes(MyShape *shape, QPoint vect, QMouseEvent* e){
-    if (!selectedStore->contains(shape)){
-        setShapeSelected(shape, e);
+void DrawingArea::setShapeSelected(MyShape *shape){
+    if (!ctrlPressed){
+        selectedStore->purge();
+    }
+    if(selectedStore->contains(shape)){
+        selectedStore->removeShape(shape);
+        drawSelectionArea();
         return;
     }
+    selectedStore->addShape(shape);
+
+    drawSelectionArea();
+}
+void DrawingArea::moveSelectedShapes(MyShape *shape, QPoint vect){
+    if(!selectedStore->contains(shape)){
+        setShapeSelected(shape);
+    }
     for(MyShape* el : *selectedStore){
-        if(el != shape){
-            el->moveBy(vect);
-        }
+        el->moveBy(vect);
     }
     drawSelectionArea();
     if (checkAreaLeaving()){ //TODO Glide-effect on crossing frame
@@ -135,24 +122,30 @@ void DrawingArea::group(){ //TODO recursive grouping checks
     MyShapeGroup* mygroup = new MyShapeGroup(selectedStore, this);
     for (MyShape* sh : *selectedStore) {
         store->removeShape(sh);
+        disconnect(sh, &MyShape::shapeMoved, this, &DrawingArea::moveSelectedShapes);
+        disconnect(sh, &MyShape::shapeSelected, this, &DrawingArea::setShapeSelected);
     }
     store->addShape(mygroup);
     connect(mygroup, &MyShapeGroup::shapeSelected, this, &DrawingArea::setShapeSelected);
-    for(MyShape* sh : *mygroup->getShapes()){
-
-    }
-    qDebug() << "grouped";
-    repaint();
+    connect(mygroup, &MyShapeGroup::shapeMoved, this, &DrawingArea::moveSelectedShapes);
+    setShapeSelected(mygroup);
 }
 void DrawingArea::ungroup(){
     for (MyShape* sh : *selectedStore) {
         MyShapeGroup* mygroup = qobject_cast<MyShapeGroup*>(sh);
-        if(!mygroup)
-            return;
-        for(MyShape* contained_shapes : *mygroup->getShapes()){
-            store->addShape(contained_shapes);
+        if(!mygroup){
+            continue;
         }
+        for(MyShape* contained_shape : *mygroup->getShapes()){
+            store->addShape(contained_shape);
+            connect(contained_shape, &MyShape::shapeMoved, this, &DrawingArea::moveSelectedShapes);
+            connect(contained_shape, &MyShape::shapeSelected, this, &DrawingArea::setShapeSelected);
+        }
+        selectedStore->removeShape(mygroup);
+        store->removeShape(mygroup);
+
+        mygroup->getShapes()->purge();
         delete mygroup;
     }
-    qDebug() << "ungrouped";
+    repaint();
 }

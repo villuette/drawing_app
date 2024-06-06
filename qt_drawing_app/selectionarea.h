@@ -7,19 +7,16 @@
 #include <QMouseEvent>
 #include <QPoint>
 #include <myshapegroup.h>
-//#include <
+
 class SelectionArea : public QWidget //movement and resize behaviour
 {
     Q_OBJECT
     ShapesStorage *storeof_selected;
-    ShapesStorage  *storeof_all; //used only to reach unselected shapes behind selection area
     QPoint press_location;
 public:
-    explicit SelectionArea(ShapesStorage* selected, ShapesStorage* main_store, QWidget *parent = nullptr);
+    explicit SelectionArea(ShapesStorage *selected, QWidget *parent = nullptr);
     void paintEvent(QPaintEvent*) override;
-    //void mouseReleaseEvent(QMouseEvent *event) override;
-    //void mouseMoveEvent(QMouseEvent *event) override;
-    //void mousePressEvent(QMouseEvent *event) override;
+    QRect calculateSelectionArea();
 signals:
     void areaMoved(QPoint vector);
     void areaResized(QSize size_diff);

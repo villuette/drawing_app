@@ -10,19 +10,18 @@ class MyShapeGroup : public MyShape
 {
     Q_OBJECT
     ShapesStorage *shapes;
-    QRect calculateGeometry();
+    void adaptSelectionBorder();
 public:
      MyShapeGroup(ShapesStorage *contained_shapes, QWidget *parent = nullptr);
+     ~MyShapeGroup();
      void setPen(QPen pen) override;
      QPen getPen() override;
      void setSize(QSize size) override;
      void moveBy(QPoint vect) override;
      ShapesStorage* getShapes();
      void draw(QPainter*);
-     void mouseReleaseEvent(QMouseEvent*) override;
-     void mouseMoveEvent(QMouseEvent*) override;
-     void mousePressEvent(QMouseEvent*) override;
-     void setShapesSelected(MyShape*, QMouseEvent*);
-     //recalc size on each operation
+     void setShapesSelected();
+     void setShapesMoved(MyShape* shape, QPoint vect);
+     void drawSelection(QPainter* p) override;
  };
 #endif // MYSHAPEGROUP_H

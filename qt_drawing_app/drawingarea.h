@@ -20,27 +20,26 @@ class DrawingArea : public QFrame
     QSize currentSize;
     QColor selectionColor;
     SelectionArea selectionArea;
+    void group();
+    void ungroup();
+    QColor getSelectionColor();
+    MyShape* createShape(QPoint coords);
+    void drawSelectionArea();
+    bool checkAreaLeaving();
+    bool ctrlPressed = false;
     //TODO fabric
 public:
     DrawingArea(QWidget* parent = nullptr);
     void BindStorage(ShapesStorage* _store); //accessed for loading and saving files
-    void paintEvent(QPaintEvent* e) override; //TODO redraw all contained shapes
-    void mousePressEvent(QMouseEvent* e) override;
-    void mouseReleaseEvent(QMouseEvent* e) override;
-    QColor getSelectionColor();
-    MyShape* createShape(QPoint coords);
-    QRect calculateSelectionArea();
-    void drawSelectionArea();
     void keyReleaseEvent(QKeyEvent *event) override;
-    void group();
-    void ungroup();
+    void paintEvent(QPaintEvent* e) override; //TODO redraw all contained shapes
+    void mouseReleaseEvent(QMouseEvent* e) override;
+    void keyPressEvent(QKeyEvent *event) override;
 public slots:
     void setCurrentColor(const QColor &color);
     void setCurrentSize(QSize size);
-    void setShapeSelected(MyShape* shape, QMouseEvent* e);
-    void moveSelectedShapes(MyShape*, QPoint, QMouseEvent*);
-    bool checkAreaLeaving();
-    //TODO avoid leaving area
+    void setShapeSelected(MyShape* shape);
+    void moveSelectedShapes(MyShape*, QPoint);
 };
 
 #endif // DRAWINGAREA_H

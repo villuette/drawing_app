@@ -5,6 +5,8 @@ ShapesStorage::ShapesStorage()
     head = tail = nullptr;
 }
 ShapesStorage::~ShapesStorage(){
+    if (head == nullptr)
+        return;
     Node* curr = head;
     while(curr != nullptr){
         auto next = curr->next;
@@ -44,25 +46,23 @@ bool ShapesStorage::contains(MyShape *shape){
 
 void ShapesStorage::removeShape(MyShape* shape) {
         if (head == nullptr) {
-            return; // The list is empty, nothing to remove
-        }
-        // If the shape to remove is the head of the list
+            return;
+        }    
         if (head->shape == shape) {
             Node* temp = head;
             head = head->next;
             if (head == nullptr) {
-                tail = nullptr; // The list is now empty
+                tail = nullptr;
             }
             return;
         }
         Node* prev = head;
         Node* current = head->next;
         while (current != nullptr) {
-            if (current->shape == shape) {
-                // Adjust the pointers to bypass the node to remove
+            if (current->shape == shape) {               
                 prev->next = current->next;
                 if (current->next == nullptr) {
-                    tail = prev; // Update the tail if we removed the last node
+                    tail = prev;
                 }
                 return;
             }
@@ -76,7 +76,6 @@ ShapesStorage::Iterator::Iterator(Node *node)
 
 ShapesStorage::Iterator ShapesStorage::begin(){
     return Iterator(head);
-
 }
 ShapesStorage::Iterator ShapesStorage::end(){
     return Iterator(nullptr);

@@ -6,7 +6,7 @@
 class MyRectangle : public MyShape
 {
 public:
-    MyRectangle();
+    MyRectangle(QWidget* parent = nullptr);
     void draw(QPainter* p) override;
 };
 
