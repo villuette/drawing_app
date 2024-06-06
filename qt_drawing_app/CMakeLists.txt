@@ -30,6 +30,9 @@ set(PROJECT_SOURCES
         sizepicker.h sizepicker.cpp
         selectionarea.h selectionarea.cpp
         myshapegroup.h myshapegroup.cpp
+        shapefactory.h shapefactory.cpp
+        myrectanglefactory.h myrectanglefactory.cpp
+        mycirclefactory.h mycirclefactory.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
