@@ -8,18 +8,21 @@
 #include <mycircle.h>
 #include <myrectangle.h>
 #include <QDebug>
+#include <shapefactory.h>
+#include <mycirclefactory.h>
+#include <myrectanglefactory.h>
 class ShapeSelector : public QComboBox
 {
     Q_OBJECT
-    MyShape* shape;
-    QMap<QString, MyShape*> shape_string_map;
-    QMap<QString, MyShape*>::iterator it;
-
+    ShapeFactory* currentFactory;
+    QMap<QString, ShapeFactory*> shape_string_map;
+    QMap<QString, ShapeFactory*>::iterator it;
 public:
     ShapeSelector(QWidget* parent = nullptr);
-    MyShape* GetShape();
-    void SetShape(MyShape* shape);
-    void SetShape(QString name);
+    void selectFromName(QString name);
+signals:
+    void factoryChanged(ShapeFactory* f);
+
 };
 
 #endif // SHAPESELECTOR_H

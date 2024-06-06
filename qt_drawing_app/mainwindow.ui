@@ -121,7 +121,7 @@
    <extends>QComboBox</extends>
    <header>shapeselector.h</header>
    <slots>
-    <signal>signal1()</signal>
+    <signal>factoryChanged(ShapeFactory*)</signal>
    </slots>
   </customwidget>
   <customwidget>
@@ -132,6 +132,7 @@
    <slots>
     <slot>setCurrentColor(QColor)</slot>
     <slot>setCurrentSize(QSize)</slot>
+    <slot>setActiveFactory(ShapeFactory*)</slot>
    </slots>
   </customwidget>
   <customwidget>
@@ -209,6 +210,22 @@
     <hint type="destinationlabel">
      <x>90</x>
      <y>114</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>comboBox</sender>
+   <signal>factoryChanged(ShapeFactory*)</signal>
+   <receiver>frame</receiver>
+   <slot>setActiveFactory(ShapeFactory*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>135</x>
+     <y>44</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>250</x>
+     <y>71</y>
     </hint>
    </hints>
   </connection>

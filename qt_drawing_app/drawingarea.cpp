@@ -10,6 +10,7 @@ DrawingArea::DrawingArea(QWidget* parent)
       selectionArea(selectedStore, this)
 {
     this->setStyleSheet(QString("background: white"));
+    this->factory = new MyCircleFactory();
     selectionArea.hide();
 }
 void DrawingArea::BindStorage(ShapesStorage *_store){
@@ -32,7 +33,8 @@ void DrawingArea::drawSelectionArea(){
     selectionArea.repaint();
 }
 MyShape* DrawingArea::createShape(QPoint coords){
-    auto shape = new MyCircle(this); //MUSTDO change to fabric
+    qDebug() << factory;
+    auto shape = factory->createShape(this);
     shape->setSize(currentSize);
     shape->setPen(QPen(currentColor, 3)); //TODO make width setting with signal
     coords-=QPoint(shape->width()/2, shape->height()/2);
@@ -148,4 +150,7 @@ void DrawingArea::ungroup(){
         delete mygroup;
     }
     repaint();
+}
+void DrawingArea::setActiveFactory(ShapeFactory *f){
+    factory = f;
 }

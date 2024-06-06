@@ -7,7 +7,7 @@ class MyCircleFactory : public ShapeFactory
 {
 public:
     MyCircleFactory();
-    MyShape* createShape();
+    MyShape* createShape(QWidget* parent = nullptr);
 };
 
 #endif // MYCIRCLEFACTORY_H

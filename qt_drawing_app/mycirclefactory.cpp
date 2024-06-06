@@ -3,6 +3,6 @@
 MyCircleFactory::MyCircleFactory()
 {
 }
-MyShape* MyCircleFactory::createShape(){
-    return new MyCircle();
+MyShape* MyCircleFactory::createShape(QWidget* parent){
+    return new MyCircle(parent);
 }

@@ -4,6 +4,6 @@ MyRectangleFactory::MyRectangleFactory()
 {
 
 }
-MyShape* MyRectangleFactory::createShape(){
-    return new MyRectangle();
+MyShape* MyRectangleFactory::createShape(QWidget* parent){
+    return new MyRectangle(parent);
 }

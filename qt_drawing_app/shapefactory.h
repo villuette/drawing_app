@@ -7,7 +7,7 @@ class ShapeFactory
 {
 public:
     ShapeFactory();
-    virtual MyShape* createShape() = 0;
+    virtual MyShape* createShape(QWidget* parent = nullptr) = 0;
 };
 
 #endif // SHAPEFACTORY_H

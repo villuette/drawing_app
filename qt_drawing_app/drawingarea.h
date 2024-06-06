@@ -11,11 +11,14 @@
 #include <climits>
 #include <QKeyEvent>
 #include <myshapegroup.h>
+#include <shapefactory.h>
+#include <mycirclefactory.h> //as initial state
 class DrawingArea : public QFrame
 {
     Q_OBJECT
     ShapesStorage* store; //destroys all contained shapes on program exit
     ShapesStorage* selectedStore; //contains only selected shapes
+    ShapeFactory* factory; //or just make visitors
     QColor currentColor;
     QSize currentSize;
     QColor selectionColor;
@@ -32,7 +35,7 @@ public:
     DrawingArea(QWidget* parent = nullptr);
     void BindStorage(ShapesStorage* _store); //accessed for loading and saving files
     void keyReleaseEvent(QKeyEvent *event) override;
-    void paintEvent(QPaintEvent* e) override; //TODO redraw all contained shapes
+    void paintEvent(QPaintEvent* e) override;
     void mouseReleaseEvent(QMouseEvent* e) override;
     void keyPressEvent(QKeyEvent *event) override;
 public slots:
@@ -40,6 +43,7 @@ public slots:
     void setCurrentSize(QSize size);
     void setShapeSelected(MyShape* shape);
     void moveSelectedShapes(MyShape*, QPoint);
+    void setActiveFactory(ShapeFactory* f);
 };
 
 #endif // DRAWINGAREA_H

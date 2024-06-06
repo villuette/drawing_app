@@ -8,7 +8,7 @@ class MyRectangleFactory : public ShapeFactory
 {
 public:
     MyRectangleFactory();
-    MyShape* createShape();
+    MyShape* createShape(QWidget* parent = nullptr);
 };
 
 #endif // MYRECTANGLEFACTORY_H

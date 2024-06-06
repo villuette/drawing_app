@@ -18,10 +18,8 @@ void MainWindow::on_comboBox_currentTextChanged(const QString &text)
 {
     ShapeSelector* selector = qobject_cast<ShapeSelector*>(sender());
     if (selector) {
-        selector->SetShape(text);
-        auto shape = selector->GetShape();
-        const std::type_info& info = typeid(*shape);
-        qDebug() << "selected shape changed: " + QString(info.name());
+        selector->selectFromName(text);
+        qDebug() << "selected factory changed: ";
     }
 }
 
