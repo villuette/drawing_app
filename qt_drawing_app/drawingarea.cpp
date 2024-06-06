@@ -115,8 +115,10 @@ void DrawingArea::moveSelectedShapes(MyShape *shape, QPoint vect){
     drawSelectionArea();
 }
 bool DrawingArea::checkAreaLeaving(){
-    if (!rect().contains(selectionArea.geometry())){
-        return true;
+    for (MyShape* el : *selectedStore){
+        if (!rect().contains(el->geometry())){
+            return true;
+        }
     }
     return false;
 }
