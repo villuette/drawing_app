@@ -10,6 +10,7 @@
 #include <drawingarea.h>
 class ShapesFileManager : QMenuBar
 {
+    MyShape* readShape(QTextStream &read_stream, ShapeSelector *sel, DrawingArea *dr, QString type);
 public:
     ShapesFileManager(QWidget* parent = nullptr);
     void writeStorageToFile(QTextStream &write_stream, ShapesStorage* store); //TODO make store immutable

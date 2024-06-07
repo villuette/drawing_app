@@ -31,7 +31,7 @@ public:
     virtual void drawSelection(QPainter* p);
     virtual QString getShapeDataStringified();
     virtual QString getType() = 0;
-    virtual void configureOnLoad(QPoint pos, QSize size, QPen pen);
+    void configureOnLoad(QPoint pos, QSize size, QPen pen);
 signals:
     void shapeSelected(MyShape* shape);
     void shapeMoved(MyShape* shape, QPoint vect);
