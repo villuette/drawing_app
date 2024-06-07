@@ -4,7 +4,6 @@ DrawingArea::DrawingArea(QWidget* parent)
     : QFrame(parent),
       currentSize(20,20),
       currentColor(Qt::black),
-      selectionColor(Qt::green),
       store(new ShapesStorage()),
       selectedStore(new ShapesStorage()),
       selectionArea(selectedStore, this)
@@ -15,6 +14,7 @@ DrawingArea::DrawingArea(QWidget* parent)
 }
 void DrawingArea::bindStorage(ShapesStorage *_store){
     delete store;
+    selectedStore->purge();
     store = _store;
 }
 ShapesStorage* DrawingArea::getStorage(){
@@ -63,9 +63,6 @@ void DrawingArea::setCurrentSize(QSize size){
     }
     drawSelectionArea();
     repaint();
-}
-QColor DrawingArea::getSelectionColor(){
-    return selectionColor;
 }
 
 void DrawingArea::keyPressEvent(QKeyEvent *event){

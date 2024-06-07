@@ -21,11 +21,11 @@ class DrawingArea : public QFrame
     ShapeFactory* factory; //or just make visitors
     QColor currentColor;
     QSize currentSize;
-    QColor selectionColor;
+    //QColor selectionColor;
     SelectionArea selectionArea;
     void group();
     void ungroup();
-    QColor getSelectionColor();
+    //QColor getSelectionColor();
     MyShape* createShape(QPoint coords);
     void drawSelectionArea();
     bool checkAreaLeaving();
