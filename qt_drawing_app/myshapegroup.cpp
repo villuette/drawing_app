@@ -18,15 +18,21 @@ MyShapeGroup::~MyShapeGroup(){
         shapes->removeShape(sh);
         delete sh;
     }
-    shapes->purge();
+    shapes->purge(); //standart destructor must not delete contained shapes
     delete shapes;
 }
-//void MyShapeGroup::onExtract(){
-//    for (MyShape* sh : *shapes) {
-//        disconnect(sh, &MyShape::shapeSelected, this, &MyShapeGroup::setShapesSelected);
-//        disconnect(sh, &MyShape::shapeMoved, this, &MyShapeGroup::setShapesMoved);
-//    }
-//}
+QString MyShapeGroup::getType(){
+    return QString("MyShapeGroup");
+}
+QString MyShapeGroup::getShapeDataStringified(){
+    QString data;
+    data.append(this->getType() + "\n");
+    data.append(QString::number(shapes->length()) + "\n");
+    for (MyShape* sh : *shapes){
+        data.append(sh->getShapeDataStringified());
+    }
+    return data;
+}
 void MyShapeGroup::drawSelection(QPainter *p){
     auto default_pen = p->pen();
     p->setPen(QPen(Qt::blue, 3));

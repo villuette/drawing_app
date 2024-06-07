@@ -30,6 +30,12 @@ private slots:
 
     void on_actionCreate_New_triggered();
 
+    void on_actionSave_as_triggered();
+
+    void on_pushButton_clicked();
+
+    void on_pushButton_pressed();
+
 private:
     Ui::MainWindow *ui;
 };

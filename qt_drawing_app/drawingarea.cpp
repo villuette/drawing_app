@@ -20,7 +20,8 @@ void DrawingArea::bindStorage(ShapesStorage *_store){
 ShapesStorage* DrawingArea::getStorage(){
     return store;
 }
-void DrawingArea::paintEvent(QPaintEvent *e){
+
+void DrawingArea::enterEvent(QEnterEvent *event){
     setFocus();
 }
 void DrawingArea::mouseReleaseEvent(QMouseEvent *e){
@@ -37,8 +38,8 @@ void DrawingArea::drawSelectionArea(){
     selectionArea.repaint();
 }
 MyShape* DrawingArea::createShape(QPoint coords){
-    qDebug() << factory;
     auto shape = factory->createShape(this);
+    //qDebug() << shape->getType();
     shape->setSize(currentSize);
     shape->setPen(QPen(currentColor, 3)); //TODO make width setting with signal
     coords-=QPoint(shape->width()/2, shape->height()/2);
@@ -47,6 +48,7 @@ MyShape* DrawingArea::createShape(QPoint coords){
     connect(shape, &MyShape::shapeSelected, this, &DrawingArea::setShapeSelected);
     connect(shape, &MyShape::shapeMoved, this, &DrawingArea::moveSelectedShapes);
     return shape;
+
 }
 void DrawingArea::setCurrentColor(const QColor& color){
     this->currentColor = color;

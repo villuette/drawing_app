@@ -36,9 +36,9 @@ public:
     void bindStorage(ShapesStorage* _store); //accessed for loading and saving files
     ShapesStorage* getStorage();
     void keyReleaseEvent(QKeyEvent *event) override;
-    void paintEvent(QPaintEvent* e) override;
     void mouseReleaseEvent(QMouseEvent* e) override;
     void keyPressEvent(QKeyEvent *event) override;
+    void enterEvent(QEnterEvent *event) override;
 public slots:
     void setCurrentColor(const QColor &color);
     void setCurrentSize(QSize size);

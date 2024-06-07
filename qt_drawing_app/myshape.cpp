@@ -3,6 +3,18 @@
 MyShape::MyShape(QWidget *parent)
     : QWidget{parent}
 {
+    //qDebug() << this->getType();
+}
+
+QString MyShape::getShapeDataStringified(){
+    QString data;
+    data.append(this->getType() + "\n");
+    data.append(QString("location: { x: %1, y: %2 }\n").arg(x()).arg(y()));
+    data.append(QString("size: { w: %1, h: %2 }\n").arg(width()).arg(height()));
+    data.append(QString("color: %1\n").arg(getPen().color().name()));
+    return data;
+}
+QString MyShape::getType(){
 }
 
 void MyShape::paintEvent(QPaintEvent *){

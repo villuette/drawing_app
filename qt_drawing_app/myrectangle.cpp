@@ -8,3 +8,6 @@ MyRectangle::MyRectangle(QWidget* parent)
 void MyRectangle::draw(QPainter* p){
     p->drawRect(rect().adjusted(1,1,-1,-1));
 }
+QString MyRectangle::getType(){
+    return QString("MyRectangle");
+}

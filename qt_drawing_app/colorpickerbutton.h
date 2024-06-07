@@ -10,7 +10,7 @@ class ColorPickerButton : public QPushButton
     QColor paletteColor;
 public:
     ColorPickerButton(QWidget* parent = nullptr);
-    void mousePressEvent(QMouseEvent* e) override;
+    //void mousePressEvent(QMouseEvent* e) override;
     QColor GetColor(); //TODO usless get;set; remove later
     void SetColor(QColor color);
 signals:

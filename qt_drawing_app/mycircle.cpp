@@ -6,4 +6,7 @@ MyCircle::MyCircle(QWidget* parent)
 void MyCircle::draw(QPainter* p){
     p->drawEllipse(rect().adjusted(1,1,-1,-1));
 }
+QString MyCircle::getType(){
+    return QString("MyCircle");
+}
 

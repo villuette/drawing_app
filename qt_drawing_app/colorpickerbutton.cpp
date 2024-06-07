@@ -5,14 +5,13 @@ ColorPickerButton::ColorPickerButton(QWidget* parent)
 {
     paletteColor = Qt::black;
 }
-void ColorPickerButton::mousePressEvent(QMouseEvent* e) { //TODO change event to signal
-    QPushButton::mousePressEvent(e);
-    auto color = QColorDialog::getColor();
-    SetColor(color);
-    setStyleSheet(QString("background-color:" + color.name()));
-    qDebug() << "Color changed: " + GetColor().name();
-    emit colorChanged(paletteColor);
-}
+//void ColorPickerButton::mousePressEvent(QMouseEvent* e) { //TODO change event to signal
+////    QPushButton::mousePressEvent(e);
+////    auto color = QColorDialog::getColor();
+////    SetColor(color);
+////    setStyleSheet(QString("background-color:" + color.name()));
+////    emit colorChanged(paletteColor);
+//}
 void ColorPickerButton::SetColor(QColor color){
     paletteColor = color;
 }

@@ -29,6 +29,8 @@ public:
     QPoint getStartMovePosition();
     virtual void moveBy(QPoint vect);
     virtual void drawSelection(QPainter* p);
+    virtual QString getShapeDataStringified();
+    virtual QString getType() = 0;
 signals:
     void shapeSelected(MyShape* shape);
     void shapeMoved(MyShape* shape, QPoint vect);

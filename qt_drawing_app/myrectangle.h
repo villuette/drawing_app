@@ -8,6 +8,7 @@ class MyRectangle : public MyShape
 public:
     MyRectangle(QWidget* parent = nullptr);
     void draw(QPainter* p) override;
+    QString getType() override;
 };
 
 #endif // MYRECTANGLE_H

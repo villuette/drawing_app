@@ -81,6 +81,12 @@ void MainWindow::on_actionOpen_triggered()
 
 void MainWindow::on_actionCreate_New_triggered()
 {
+    //TODO make checks if aren't saved previous store
+}
+
+
+void MainWindow::on_actionSave_as_triggered()
+{
     QString fileName = QFileDialog::getSaveFileName(this, tr("Create File"), "", tr("All Files (*)"));
     if(!fileName.isEmpty()){
         qDebug() << fileName;
@@ -92,6 +98,15 @@ void MainWindow::on_actionCreate_New_triggered()
         fileManager.writeStorageToFile(writer, ui->frame->getStorage());
         file.close();
     }
-
 }
 
+
+
+void MainWindow::on_pushButton_pressed()
+{
+    qDebug() << "pressed";
+    auto color = QColorDialog::getColor();
+    ColorPickerButton* btn = qobject_cast<ColorPickerButton*>(sender());
+    btn->setStyleSheet(QString("background-color:" + color.name()));
+    emit btn->colorChanged(color);
+}
