@@ -13,8 +13,12 @@ DrawingArea::DrawingArea(QWidget* parent)
     this->factory = new MyCircleFactory();
     selectionArea.hide();
 }
-void DrawingArea::BindStorage(ShapesStorage *_store){
+void DrawingArea::bindStorage(ShapesStorage *_store){
+    delete store;
     store = _store;
+}
+ShapesStorage* DrawingArea::getStorage(){
+    return store;
 }
 void DrawingArea::paintEvent(QPaintEvent *e){
     setFocus();

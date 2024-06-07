@@ -33,6 +33,7 @@ set(PROJECT_SOURCES
         shapefactory.h shapefactory.cpp
         myrectanglefactory.h myrectanglefactory.cpp
         mycirclefactory.h mycirclefactory.cpp
+        shapesfilemanager.h shapesfilemanager.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

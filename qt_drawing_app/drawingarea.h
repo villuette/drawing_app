@@ -33,7 +33,8 @@ class DrawingArea : public QFrame
     //TODO fabric
 public:
     DrawingArea(QWidget* parent = nullptr);
-    void BindStorage(ShapesStorage* _store); //accessed for loading and saving files
+    void bindStorage(ShapesStorage* _store); //accessed for loading and saving files
+    ShapesStorage* getStorage();
     void keyReleaseEvent(QKeyEvent *event) override;
     void paintEvent(QPaintEvent* e) override;
     void mouseReleaseEvent(QMouseEvent* e) override;
