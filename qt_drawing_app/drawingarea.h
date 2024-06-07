@@ -16,21 +16,20 @@
 class DrawingArea : public QFrame
 {
     Q_OBJECT
-    ShapesStorage* store; //destroys all contained shapes on program exit
-    ShapesStorage* selectedStore; //contains only selected shapes
-    ShapeFactory* factory; //or just make visitors
+    bool ctrlPressed = false;
     QColor currentColor;
     QSize currentSize;
-    //QColor selectionColor;
+
+    ShapesStorage* store; //destroys all contained shapes on program exit
+    ShapesStorage* selectedStore; //contains only selected shapes
+    ShapeFactory* factory;
     SelectionArea selectionArea;
+
     void group();
     void ungroup();
-    //QColor getSelectionColor();
-    MyShape* createShape(QPoint coords);
     void drawSelectionArea();
     bool checkAreaLeaving();
-    bool ctrlPressed = false;
-    //TODO fabric
+
 public:
     DrawingArea(QWidget* parent = nullptr);
     void bindStorage(ShapesStorage* _store); //accessed for loading and saving files
@@ -39,6 +38,7 @@ public:
     void mouseReleaseEvent(QMouseEvent* e) override;
     void keyPressEvent(QKeyEvent *event) override;
     void enterEvent(QEnterEvent *event) override;
+    MyShape* createShape(QPoint coords); //accessed for loading and saving files
 public slots:
     void setCurrentColor(const QColor &color);
     void setCurrentSize(QSize size);

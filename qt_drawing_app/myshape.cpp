@@ -4,6 +4,7 @@ MyShape::MyShape(QWidget *parent)
     : QWidget{parent}
 {
     //qDebug() << this->getType();
+    pen.setWidth(3);
 }
 
 QString MyShape::getShapeDataStringified(){
@@ -15,6 +16,10 @@ QString MyShape::getShapeDataStringified(){
     return data;
 }
 QString MyShape::getType(){
+}
+void MyShape::configureOnLoad(QPoint _pos, QSize _size, QPen _pen){
+    setGeometry(QRect(_pos, _size));
+    setPen(_pen);
 }
 
 void MyShape::paintEvent(QPaintEvent *){

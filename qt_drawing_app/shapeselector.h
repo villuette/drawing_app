@@ -20,6 +20,7 @@ class ShapeSelector : public QComboBox
 public:
     ShapeSelector(QWidget* parent = nullptr);
     void selectFromName(QString name);
+    ShapeFactory* getFactoryOnly(QString name);
 signals:
     void factoryChanged(ShapeFactory* f);
 

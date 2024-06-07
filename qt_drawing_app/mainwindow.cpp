@@ -72,8 +72,10 @@ void MainWindow::on_actionOpen_triggered()
             qDebug() << "cant open file to read";
         }
         QTextStream reader(&file);
-        auto generated_store = fileManager.buildStorageFromFile(reader);
-        ui->frame->bindStorage(generated_store);
+        auto newstore = fileManager.buildFromFile(reader, ui->comboBox, ui->frame);
+        ui->frame->bindStorage(newstore);
+        qDebug() <<"NEW STORE LEN: " << newstore->length();
+        ui->frame->repaint();
         file.close();
     }
 }
@@ -95,6 +97,7 @@ void MainWindow::on_actionCreate_New_triggered()
         }
     }
     ui->frame->bindStorage(new ShapesStorage());
+    ui->frame->repaint();
 }
 
 
