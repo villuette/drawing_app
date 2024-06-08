@@ -9,8 +9,10 @@
 class MyShapeGroup : public MyShape
 {
     Q_OBJECT
-    ShapesStorage *shapes;
     void adaptSelectionBorder();
+protected:
+    ShapesStorage *shapes;
+    ///void
 public:
      MyShapeGroup(ShapesStorage *contained_shapes, QWidget *parent = nullptr);
      ~MyShapeGroup();

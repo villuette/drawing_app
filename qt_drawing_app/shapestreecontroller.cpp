@@ -19,6 +19,7 @@ void ShapesTreeController::updateState(ShapesStorage *_allShapes, ShapesStorage 
     tree->selectionModel()->clear();
     model->clear();
     uid = 0;
+    model->setHorizontalHeaderLabels(QStringList(QString("[ object browser ]")));
     QStandardItem* root = new QStandardItem("<root>");
     for (MyShape* shape : *_allShapes){
         auto generated_node = processNode(shape);

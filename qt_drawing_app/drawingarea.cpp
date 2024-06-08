@@ -57,7 +57,7 @@ MyShape* DrawingArea::createShape(QPoint coords){
     shape->setSize(currentSize);
     shape->setPen(QPen(currentColor, 3)); //TODO make width setting with signal
     coords-=QPoint(shape->width()/2, shape->height()/2);
-    shape->move(coords);
+    shape->moveBy(coords);
     shape->show();
     connect(shape, &MyShape::shapeSelected, this, &DrawingArea::setShapeSelected);
     connect(shape, &MyShape::shapeMoved, this, &DrawingArea::moveSelectedShapes);

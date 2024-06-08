@@ -38,6 +38,8 @@ set(PROJECT_SOURCES
         iobserver.h iobserver.cpp
         shapestreecontroller.h shapestreecontroller.cpp
         mytreeitem.h mytreeitem.cpp
+        mystickyshape.h mystickyshape.cpp
+        mystickyfactory.h mystickyfactory.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

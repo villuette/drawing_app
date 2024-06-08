@@ -35,7 +35,7 @@ public:
     DrawingArea(QWidget* parent = nullptr);
     void bindStorage(ShapesStorage* _store); //accessed for loading and saving files
     ShapesStorage* getStorage();
-    void keyReleaseEvent(QKeyEvent *event) override;
+    void keyReleaseEvent(QKeyEvent *event) override; //CRASHING ON DELETING element inside group (restrict or handle later)
     void mouseReleaseEvent(QMouseEvent* e) override;
     void keyPressEvent(QKeyEvent *event) override;
     void enterEvent(QEnterEvent *event) override;
