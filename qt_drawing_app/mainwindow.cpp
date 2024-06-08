@@ -7,6 +7,11 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    //Subscribe here
+    treeController.bindTreeView(ui->treeView);
+    //treeController = ShapesTreeController(ui->treeView);
+    ui->frame->addObserver(&treeController);
 }
 
 MainWindow::~MainWindow()
@@ -92,9 +97,10 @@ void MainWindow::on_actionCreate_New_triggered()
             on_actionSave_as_triggered();
             //no return, it must create new storage then
         }
-        if (reply == QMessageBox::Cancel | QMessageBox::Close){
+        if (reply == QMessageBox::Cancel || reply == QMessageBox::Close){
             return;
         }
+
     }
     ui->frame->bindStorage(new ShapesStorage());
     ui->frame->repaint();

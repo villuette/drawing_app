@@ -21,6 +21,16 @@ ShapesStorage* DrawingArea::getStorage(){
     return store;
 }
 
+void DrawingArea::addObserver(IObserver* obs){
+    observers.push_back(obs);
+}
+void DrawingArea::notifyObservers(){
+    qDebug() << "notification sent";
+    for(auto obs : observers){
+        obs->updateState(store, selectedStore);
+    }
+}
+
 void DrawingArea::enterEvent(QEnterEvent *event){
     setFocus();
 }
@@ -77,9 +87,11 @@ void DrawingArea::keyReleaseEvent(QKeyEvent *event){
     }
     if(event->key() == Qt::Key_Delete){
         for (MyShape* shape : *selectedStore){
+            store->removeShape(shape);
             delete shape;
         }
         selectedStore->purge();
+        notifyObservers();
         repaint();
     }
 
@@ -99,7 +111,7 @@ void DrawingArea::setShapeSelected(MyShape *shape){
         return;
     }
     selectedStore->addShape(shape);
-
+    notifyObservers();
     drawSelectionArea();
 }
 void DrawingArea::moveSelectedShapes(MyShape *shape, QPoint vect){
@@ -155,6 +167,7 @@ void DrawingArea::ungroup(){
         delete mygroup;
     }
     repaint();
+    notifyObservers();
 }
 void DrawingArea::setActiveFactory(ShapeFactory *f){
     factory = f;

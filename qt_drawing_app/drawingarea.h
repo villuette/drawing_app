@@ -12,17 +12,18 @@
 #include <QKeyEvent>
 #include <myshapegroup.h>
 #include <shapefactory.h>
-#include <mycirclefactory.h> //as initial state
-class DrawingArea : public QFrame
+#include <mycirclefactory.h>
+#include <iobservable.h>
+class DrawingArea : public QFrame, public IObservable
 {
     Q_OBJECT
     bool ctrlPressed = false;
     QColor currentColor;
     QSize currentSize;
-
+    std::vector<IObserver*> observers;
     ShapesStorage* store; //destroys all contained shapes on program exit
     ShapesStorage* selectedStore; //contains only selected shapes
-    ShapeFactory* factory;
+    ShapeFactory* factory; //as initial state
     SelectionArea selectionArea;
 
     void group();
@@ -39,6 +40,11 @@ public:
     void keyPressEvent(QKeyEvent *event) override;
     void enterEvent(QEnterEvent *event) override;
     MyShape* createShape(QPoint coords); //accessed for loading and saving files
+
+    //IObservable:
+    void addObserver(IObserver*) override;
+    void notifyObservers() override;
+
 public slots:
     void setCurrentColor(const QColor &color);
     void setCurrentSize(QSize size);

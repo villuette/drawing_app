@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <shapesfilemanager.h>
+#include <shapestreecontroller.h>
 #include <QMessageBox>
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -11,7 +12,8 @@ QT_END_NAMESPACE
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-    ShapesFileManager fileManager;
+    ShapesFileManager fileManager; //declare objects to interact with standard widgets
+    ShapesTreeController treeController;
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();

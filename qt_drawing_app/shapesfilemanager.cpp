@@ -1,7 +1,6 @@
 #include "shapesfilemanager.h"
 
-ShapesFileManager::ShapesFileManager(QWidget* parent)
-    :QMenuBar(parent)
+ShapesFileManager::ShapesFileManager()
 {
 
 }
@@ -10,19 +9,19 @@ void ShapesFileManager::writeStorageToFile(QTextStream &write_stream, ShapesStor
         write_stream << sh->getShapeDataStringified();
     }
 }
-//shapes-newbies need to be created with DrawingArea as parent widget (QWidget will be enough)
+//shapes-newbies needs to be created with DrawingArea as parent widget (QWidget will be enough)
 //before shapes are created, we should pick the correct factory to initialize (need access to ShapeSelector/static method)
 //on the other hand, DrawingArea is the only responsible for objects creating. (need access to DrawingArea)
 //if i send DrawingArea, i should make shape creator method public
-//or, due to task, just get the factory without other things from selector (add public method)
+//or, according the task, just get the factory without other things from selector (add public method)
 //now, this becomes another responsible object for shapes creating (review later)
 ShapesStorage* ShapesFileManager::buildFromFile(QTextStream &read_stream, ShapeSelector *sel, DrawingArea *dr){
     ShapesStorage* store = new ShapesStorage();
 
-    while(!read_stream.atEnd()){ //TODO workaround with groups
+    while(!read_stream.atEnd()){
         QString shapeType = read_stream.readLine();
         MyShape* shapeEntity; //shape or group
-        if (shapeType == "MyShapeGroup"){ //TODO reverse if-else
+        if (shapeType == "MyShapeGroup"){
             int amount = read_stream.readLine().toInt();
             auto groupstore = new ShapesStorage();
             for (int i = 0; i < amount; i++){
@@ -42,7 +41,7 @@ ShapesStorage* ShapesFileManager::buildFromFile(QTextStream &read_stream, ShapeS
         }
         store->addShape(shapeEntity);
     }
-    return store; //function only creates new store and nothing more
+    return store; //function only creates new (well-configured) store and nothing more
 }
 MyShape* ShapesFileManager::readShape(QTextStream &read_stream, ShapeSelector *sel, DrawingArea *dr, QString shapeType){
     QRegularExpression re(".*: (\\d+), .*: (\\d+)");
@@ -63,7 +62,10 @@ MyShape* ShapesFileManager::readShape(QTextStream &read_stream, ShapeSelector *s
     int sh_h = re.match(shapeSize).captured(2).toInt();
     qDebug() << "sizes: " << sh_w << sh_h;
 
-    QColor color = QColor(read_stream.readLine());
+    QRegularExpression colorRe("\\s+(#\\S+)");
+    QString colorText = read_stream.readLine();
+    QColor color = QColor(colorRe.match(colorText).captured(1));
+
     qDebug() << "color: " << color.name();
 
     shape->configureOnLoad(QPoint(xpos,ypos), QSize(sh_w, sh_h), QPen(color, shape->getPen().width()));

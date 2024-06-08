@@ -7,6 +7,7 @@
 #include <QMouseEvent>
 #include <QPoint>
 #include <QPainter>
+
 class MyShape : public QWidget
 {
     Q_OBJECT

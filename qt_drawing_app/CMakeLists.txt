@@ -34,6 +34,10 @@ set(PROJECT_SOURCES
         myrectanglefactory.h myrectanglefactory.cpp
         mycirclefactory.h mycirclefactory.cpp
         shapesfilemanager.h shapesfilemanager.cpp
+        iobservable.h iobservable.cpp
+        iobserver.h iobserver.cpp
+        shapestreecontroller.h shapestreecontroller.cpp
+        mytreeitem.h mytreeitem.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
