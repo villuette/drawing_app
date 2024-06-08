@@ -6,10 +6,10 @@
 
 class MyTreeItem : public QStandardItem
 {
-public:
-    MyTreeItem();
-    MyTreeItem(QString text);
     MyShape* shape;
+public:
+    MyShape* getShape();
+    MyTreeItem(QString text, MyShape* shape);
 };
 
 #endif // MYTREEITEM_H

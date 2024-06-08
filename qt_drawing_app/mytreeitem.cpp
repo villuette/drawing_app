@@ -1,9 +1,10 @@
 #include "mytreeitem.h"
 
-MyTreeItem::MyTreeItem()
-{
-
-}
-MyTreeItem::MyTreeItem(QString text)
+MyTreeItem::MyTreeItem(QString text, MyShape* shape)
     :QStandardItem(text)
-{}
+{
+    this->shape = shape;
+}
+MyShape* MyTreeItem::getShape(){
+    return this->shape;
+}
