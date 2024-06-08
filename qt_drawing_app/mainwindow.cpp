@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent)
     treeController.bindTreeView(ui->treeView);
     //treeController = ShapesTreeController(ui->treeView);
     ui->frame->addObserver(&treeController);
+    treeController.addObserver(ui->frame);
 }
 
 MainWindow::~MainWindow()
@@ -69,6 +70,8 @@ void MainWindow::on_pushButton_colorChanged(const QColor & color)
 
 void MainWindow::on_actionOpen_triggered()
 {
+    if(!unsavedWarning())
+        return;
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "", tr("All Files (*)"));
     if (!fileName.isEmpty()) {
         qDebug() << fileName;
@@ -85,9 +88,7 @@ void MainWindow::on_actionOpen_triggered()
     }
 }
 
-
-void MainWindow::on_actionCreate_New_triggered()
-{
+bool MainWindow::unsavedWarning(){
     if(ui->frame->getStorage()->length() > 0){
         auto reply = QMessageBox::warning(this,
                                            "Unsaved changes",
@@ -95,13 +96,19 @@ void MainWindow::on_actionCreate_New_triggered()
                                            QMessageBox::Yes | QMessageBox::Save | QMessageBox::Cancel);
         if (reply == QMessageBox::Save){
             on_actionSave_as_triggered();
-            //no return, it must create new storage then
         }
         if (reply == QMessageBox::Cancel || reply == QMessageBox::Close){
-            return;
+            return false;
         }
 
     }
+    return true;
+}
+
+void MainWindow::on_actionCreate_New_triggered()
+{
+    if(!unsavedWarning())
+        return;
     ui->frame->bindStorage(new ShapesStorage());
     ui->frame->repaint();
 }

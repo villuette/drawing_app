@@ -9,41 +9,38 @@ ShapesTreeController::ShapesTreeController()
 void ShapesTreeController::bindTreeView(QTreeView* attached_tree){
     tree = attached_tree;
     tree->setModel(model);
+    model->setHorizontalHeaderLabels(QStringList(QString("[ object browser ]")));
     //opt: disconnect from previous tree sel model (for consistence)
     connect(tree->selectionModel(), &QItemSelectionModel::currentChanged, this, &ShapesTreeController::onItemClicked);
 }
 void ShapesTreeController::updateState(ShapesStorage *_allShapes, ShapesStorage *_selectedShapes){
-    qDebug() << "notification received";
     allShapes = _allShapes;
     selectedShapes = _selectedShapes;
     tree->selectionModel()->clear();
     model->clear();
     uid = 0;
-    //tree->setSelectionModel(new QItemSelectionModel());
-    //NAMES HAS TO BE UNIQUE
-    MyTreeItem* core = new MyTreeItem("sometextRightHere", nullptr);
+    QStandardItem* root = new QStandardItem("<root>");
     for (MyShape* shape : *_allShapes){
-        core->appendRow(processNode(shape));
-        uid++;
+        auto generated_node = processNode(shape);
+        if (selectedShapes->contains(shape)) {
+            generated_node->setBackground(Qt::green);
+        }
+        root->appendRow(generated_node);
     }
-
-//    core->setBackground(Qt::red);ShapesTreeController
-//    QStandardItem* foldedItem = new QStandardItem("folded text");
-//    testitem->appendRow(foldedItem);
-    model->appendRow(core);
+    model->appendRow(root);
     tree->expandAll();
 }
 void ShapesTreeController::onItemClicked(const QModelIndex &index){
     QStandardItem *item = model->itemFromIndex(index);
     MyTreeItem* item_casted = dynamic_cast<MyTreeItem*>(item);
     if(item_casted){
-        qDebug() <<" shape:" << item_casted->getShape();
         selectedShapeInStore->addShape(item_casted->getShape()); //check for deletion
+        notifyObservers();
+        selectedShapeInStore->purge();
     }
-//    item->setBackground(Qt::red);
 }
 MyTreeItem* ShapesTreeController::processNode(MyShape *shape){
-    auto node = new MyTreeItem(shape->getType(), shape);
+    auto node = new MyTreeItem(shape->getType() + "#" + QString::number(uid++), shape);
     if (auto group = qobject_cast<MyShapeGroup*>(shape)){ //check ifGroup at MyShape level
         for (auto inner_shape :  *group->getShapes()){
            node->appendRow(processNode(inner_shape));

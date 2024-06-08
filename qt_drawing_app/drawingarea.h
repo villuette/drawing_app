@@ -14,7 +14,7 @@
 #include <shapefactory.h>
 #include <mycirclefactory.h>
 #include <iobservable.h>
-class DrawingArea : public QFrame, public IObservable
+class DrawingArea : public QFrame, public IObservable, public virtual IObserver
 {
     Q_OBJECT
     bool ctrlPressed = false;
@@ -44,6 +44,8 @@ public:
     //IObservable:
     void addObserver(IObserver*) override;
     void notifyObservers() override;
+
+    void updateState(ShapesStorage*, ShapesStorage*);
 
 public slots:
     void setCurrentColor(const QColor &color);

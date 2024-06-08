@@ -9,6 +9,8 @@
 #include <mytreeitem.h>
 #include <myshapegroup.h>
 #include <iobservable.h>
+#include <QStandardItem>
+#include <QHeaderView>
 class ShapesTreeController : public QObject, public virtual IObserver, public virtual IObservable
 {
     Q_OBJECT

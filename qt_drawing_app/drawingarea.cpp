@@ -16,6 +16,7 @@ void DrawingArea::bindStorage(ShapesStorage *_store){
     delete store;
     selectedStore->purge();
     store = _store;
+    notifyObservers();
 }
 ShapesStorage* DrawingArea::getStorage(){
     return store;
@@ -25,10 +26,14 @@ void DrawingArea::addObserver(IObserver* obs){
     observers.push_back(obs);
 }
 void DrawingArea::notifyObservers(){
-    qDebug() << "notification sent";
     for(auto obs : observers){
         obs->updateState(store, selectedStore);
     }
+}
+
+void DrawingArea::updateState(ShapesStorage *, ShapesStorage *withSelectedShape){
+    setShapeSelected(withSelectedShape->begin().current->shape);
+    setFocus();
 }
 
 void DrawingArea::enterEvent(QEnterEvent *event){
@@ -49,7 +54,6 @@ void DrawingArea::drawSelectionArea(){
 }
 MyShape* DrawingArea::createShape(QPoint coords){
     auto shape = factory->createShape(this);
-    //qDebug() << shape->getType();
     shape->setSize(currentSize);
     shape->setPen(QPen(currentColor, 3)); //TODO make width setting with signal
     coords-=QPoint(shape->width()/2, shape->height()/2);
@@ -108,6 +112,7 @@ void DrawingArea::setShapeSelected(MyShape *shape){
     if(selectedStore->contains(shape)){
         selectedStore->removeShape(shape);
         drawSelectionArea();
+        notifyObservers();
         return;
     }
     selectedStore->addShape(shape);

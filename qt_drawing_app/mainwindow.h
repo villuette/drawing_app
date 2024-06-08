@@ -16,6 +16,7 @@ class MainWindow : public QMainWindow
     ShapesTreeController treeController;
 public:
     MainWindow(QWidget *parent = nullptr);
+    inline bool unsavedWarning();
     ~MainWindow();
 
 private slots:

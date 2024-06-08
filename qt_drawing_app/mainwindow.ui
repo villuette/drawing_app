@@ -103,6 +103,9 @@
       <height>211</height>
      </rect>
     </property>
+    <attribute name="headerVisible">
+     <bool>true</bool>
+    </attribute>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
