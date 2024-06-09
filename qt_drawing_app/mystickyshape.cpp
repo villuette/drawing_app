@@ -33,7 +33,6 @@ void MyStickyShape::setShapesMoved(MyShape *shape, QPoint vect){
                 allShapes->removeShape(outer);
                 shapes->addShape(outer);
                 connect(sh, &MyShape::shapeSelected, this, &MyStickyShape::setShapesSelected);
-                //connect(sh, &MyShape::shapeMoved, this, &MyStickyShape::setShapesMoved);
                 return;
             }
         }
@@ -47,7 +46,7 @@ void MyStickyShape::setShapesMoved(MyShape *shape, QPoint vect){
 void MyStickyShape::setShapesSelected(){
     MyShapeGroup::setShapesSelected();
 }
-void MyStickyShape::updateState(ShapesStorage *allShapes, ShapesStorage *){
+void MyStickyShape::updateState(ShapesStorage *allShapes, ShapesStorage *){ //should have access to remove itself from storage?
 //    others->purge();
 //    for(MyShape* sh: *allShapes){
 //        if (sh != this){
