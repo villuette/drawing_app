@@ -35,6 +35,14 @@ void ShapesTreeController::onItemClicked(const QModelIndex &index){
     QStandardItem *item = model->itemFromIndex(index);
     MyTreeItem* item_casted = dynamic_cast<MyTreeItem*>(item);
     if(item_casted){
+        if (auto parentItem = dynamic_cast<MyTreeItem*>(item_casted->parent())){ //make it optimal
+            if (auto mygroup = qobject_cast<MyShapeGroup*>(parentItem->getShape())){
+                selectedShapeInStore->addShape(mygroup);
+                notifyObservers();
+                selectedShapeInStore->purge();
+                return;
+            }
+        }
         selectedShapeInStore->addShape(item_casted->getShape()); //check for deletion
         notifyObservers();
         selectedShapeInStore->purge();
