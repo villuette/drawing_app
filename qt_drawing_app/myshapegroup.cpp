@@ -18,7 +18,7 @@ MyShapeGroup::~MyShapeGroup(){
         shapes->removeShape(sh);
         delete sh;
     }
-    shapes->purge(); //standart destructor must not delete contained shapes
+    //shapes->purge(); //standart destructor must not delete contained shapes
     delete shapes;
 }
 QString MyShapeGroup::getType(){

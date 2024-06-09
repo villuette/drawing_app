@@ -26,7 +26,7 @@ void DrawingArea::addObserver(IObserver* obs){
     observers.push_back(obs);
 }
 void DrawingArea::removeObserver(IObserver *iobs){
-     observers.erase(std::remove(observers.begin(), observers.end(), iobs), observers.end());
+     observers.erase(std::find(observers.begin(),observers.end(),iobs));
 }
 void DrawingArea::notifyObservers(){
     for(auto obs : observers){
@@ -96,6 +96,9 @@ void DrawingArea::keyReleaseEvent(QKeyEvent *event){
     if(event->key() == Qt::Key_Delete){
         for (MyShape* shape : *selectedStore){
             store->removeShape(shape);
+            if(auto shape_obs = dynamic_cast<IObserver*>(shape)){
+                removeObserver(shape_obs);
+            }
             delete shape;
         }
         selectedStore->purge();

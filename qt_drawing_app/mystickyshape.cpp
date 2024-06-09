@@ -10,14 +10,18 @@ MyStickyShape::MyStickyShape(QWidget* parent)
     shapes->addShape(new MyRectangle(parent)); //starting look of shape (maybe composition of shapes)
     for (MyShape* sh : *shapes){
         sh->setPen(QPen(Qt::red, 3));
-        connect(sh, &MyShape::shapeSelected, this, &MyStickyShape::shapeSelected);
+        connect(sh, &MyShape::shapeSelected, this, &MyStickyShape::setShapesSelected);
         connect(sh, &MyShape::shapeMoved, this, &MyStickyShape::setShapesMoved);
         sh->show();
     }
 }
 
 MyStickyShape::~MyStickyShape(){
-
+    for (MyShape* sh : *shapes){ //recursively unsubscribe inner sticky shapes
+        if (auto shobs = dynamic_cast<IObserver*>(sh)){
+            dr->removeObserver(shobs);
+        }
+    }
 }
 
 void MyStickyShape::setShapesMoved(MyShape *shape, QPoint vect){
@@ -28,7 +32,8 @@ void MyStickyShape::setShapesMoved(MyShape *shape, QPoint vect){
                 qDebug() << "INTERSECTION";
                 allShapes->removeShape(outer);
                 shapes->addShape(outer);
-
+                connect(sh, &MyShape::shapeSelected, this, &MyStickyShape::setShapesSelected);
+                //connect(sh, &MyShape::shapeMoved, this, &MyStickyShape::setShapesMoved);
                 return;
             }
         }
