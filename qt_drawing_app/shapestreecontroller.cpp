@@ -31,12 +31,17 @@ void ShapesTreeController::updateState(ShapesStorage *_allShapes, ShapesStorage 
     model->appendRow(root);
     tree->expandAll();
 }
-void ShapesTreeController::onItemClicked(const QModelIndex &index){
+void ShapesTreeController::onItemClicked(const QModelIndex &index){ //groups selecting fixed
     QStandardItem *item = model->itemFromIndex(index);
     MyTreeItem* item_casted = dynamic_cast<MyTreeItem*>(item);
     if(item_casted){
-        if (auto parentItem = dynamic_cast<MyTreeItem*>(item_casted->parent())){ //make it optimal
-            if (auto mygroup = qobject_cast<MyShapeGroup*>(parentItem->getShape())){
+        auto parentFinder = item_casted;
+        MyTreeItem* maxParentAccepted = nullptr;
+        while(parentFinder = dynamic_cast<MyTreeItem*>(parentFinder->parent())){
+             maxParentAccepted = parentFinder;
+        }
+        if(maxParentAccepted){
+            if (auto mygroup = qobject_cast<MyShapeGroup*>(maxParentAccepted->getShape())){
                 selectedShapeInStore->addShape(mygroup);
                 notifyObservers();
                 selectedShapeInStore->purge();
