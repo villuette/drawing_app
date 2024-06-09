@@ -21,9 +21,9 @@ public:
      void setSize(QSize size) override;
      void moveBy(QPoint vect) override;
      ShapesStorage* getShapes();
-     void draw(QPainter*);
-     void setShapesSelected();
-     void setShapesMoved(MyShape* shape, QPoint vect);
+     void draw(QPainter*) override;
+     virtual void setShapesSelected();
+     virtual void setShapesMoved(MyShape* shape, QPoint vect);
      void drawSelection(QPainter* p) override;
      QString getType() override;
      QString getShapeDataStringified() override;

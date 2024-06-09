@@ -25,8 +25,12 @@ ShapesStorage* DrawingArea::getStorage(){
 void DrawingArea::addObserver(IObserver* obs){
     observers.push_back(obs);
 }
+void DrawingArea::removeObserver(IObserver *iobs){
+     observers.erase(std::remove(observers.begin(), observers.end(), iobs), observers.end());
+}
 void DrawingArea::notifyObservers(){
     for(auto obs : observers){
+        qDebug() << obs;
         obs->updateState(store, selectedStore);
     }
 }

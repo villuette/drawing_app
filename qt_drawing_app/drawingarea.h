@@ -44,7 +44,7 @@ public:
     //IObservable:
     void addObserver(IObserver*) override;
     void notifyObservers() override;
-
+    void removeObserver(IObserver*);
     void updateState(ShapesStorage*, ShapesStorage*);
 
 public slots:

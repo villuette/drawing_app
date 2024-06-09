@@ -65,11 +65,7 @@ ShapesStorage* MyShapeGroup::getShapes(){
     return shapes;
 
 }
-void MyShapeGroup::draw(QPainter *p){
-    for(MyShape *el : *shapes){
-        el->draw(p);
-    }
-}
+void MyShapeGroup::draw(QPainter *p){}
 void MyShapeGroup::adaptSelectionBorder(){
     using namespace  std;
     int minX, minY, maxX, maxY;
