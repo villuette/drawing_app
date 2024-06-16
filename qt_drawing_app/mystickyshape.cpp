@@ -29,16 +29,12 @@ void MyStickyShape::setShapesMoved(MyShape *shape, QPoint vect){
     for (MyShape* sh : *shapes){
         for (MyShape* outer : *allShapes){
             if(outer != this && sh->geometry().intersects(outer->geometry())){
-                qDebug() << "INTERSECTION";
                 allShapes->removeShape(outer);
                 shapes->addShape(outer);
                 connect(sh, &MyShape::shapeSelected, this, &MyStickyShape::setShapesSelected);
                 return;
             }
         }
-    }
-    for (MyShape* sh : *shapes){
-        qDebug() << "amount: " << shapes->length() << "pos: " <<  sh->pos();
     }
     MyShapeGroup::setShapesMoved(shape, vect);
 }
@@ -47,12 +43,5 @@ void MyStickyShape::setShapesSelected(){
     MyShapeGroup::setShapesSelected();
 }
 void MyStickyShape::updateState(ShapesStorage *allShapes, ShapesStorage *){ //should have access to remove itself from storage?
-//    others->purge();
-//    for(MyShape* sh: *allShapes){
-//        if (sh != this){
-//            others->addShape(sh);
-//            qDebug() << sh;
-//        }
-//    }
-    this->allShapes = allShapes;
+    this->allShapes = allShapes; //TODO copy state, not direct access
 }
